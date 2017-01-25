@@ -5,8 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageMatcherDisplay"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Image Matcher" Height="632.258" Width="1256.048">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="Images">
+                <MenuItem Header="_Get Images" Click="MenuItemGetImage_OnClick" />
+            </MenuItem>
+        </Menu>
+        <TextBox AcceptsReturn="True" />
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Hello" />
+            <TextBlock Text="World" />
+        </StackPanel>
+
+        <TabControl HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch">
+            <TabItem Header="Small">
+                <TextBlock Text="Just Some Small Stuff" />
+            </TabItem>
+            <TabItem Header="Bigger">
+                <StackPanel>
+                    <ItemsControl Name="imageList">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!-- The Image binding -->
+                                <Image Source="{Binding Path=Value}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+    </DockPanel>
 </Window>
