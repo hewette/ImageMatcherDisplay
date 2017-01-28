@@ -9,10 +9,10 @@ namespace ImageMatcherDisplay
 {
     public class ImageFileListProcessor
     {
-        public List<ImageFile> ImageFileList;
+        private List<ImageFile> _imageFileList;
         public List<ImageFile> ProcessFolder(string path)
         {
-            ImageFileList = new List<ImageFile>();  
+            _imageFileList = new List<ImageFile>();  
             if (File.Exists(path))
             {
                 // This path is a file
@@ -27,7 +27,7 @@ namespace ImageMatcherDisplay
             {
                 Console.WriteLine("{0} is not a valid file or directory.", path);
             }
-            return ImageFileList;
+            return _imageFileList;
         }
 
 
@@ -41,15 +41,15 @@ namespace ImageMatcherDisplay
                 ProcessFile(fileName);
 
             // Recurse into subdirectories of this directory.
-            string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
-            foreach (string subdirectory in subdirectoryEntries)
-                ProcessDirectory(subdirectory);
+            //string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+            //foreach (string subdirectory in subdirectoryEntries)
+            //    ProcessDirectory(subdirectory);
         }
 
         // Insert logic for processing found files here.
         private void ProcessFile(string path)
         {
-            ImageFileList.Add(new ImageFile() { ImageFileInfo = new FileInfo(path) });
+            _imageFileList.Add(new ImageFile() { ImageFileInfo = new FileInfo(path) });
             Console.WriteLine("Processed file '{0}'.", path);
         }
     }

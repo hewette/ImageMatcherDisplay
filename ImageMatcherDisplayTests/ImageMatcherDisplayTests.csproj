@@ -61,6 +61,16 @@
       <Name>ImageMatcherDisplay</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TestImages\Test1\Lonely Tree.jpg" />
+    <Content Include="TestImages\Test2\Lonely Tree-2.jpg" />
+    <Content Include="TestImages\Test2\Lonely Tree-3.jpg" />
+    <Content Include="TestImages\Test2\Lonely Tree-4.jpg" />
+    <Content Include="TestImages\Test2\Lonely Tree-5.jpg" />
+    <Content Include="TestImages\Test2\Lonely Tree-6.jpg" />
+    <Content Include="TestImages\Test2\Lonely Tree.jpg" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
