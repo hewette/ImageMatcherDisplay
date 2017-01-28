@@ -24,28 +24,12 @@ namespace ImageMatcherDisplay
     public partial class MainWindow : Window
     {
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
-        private string openFileName, folderName;
-
-        private bool fileOpened = false;
+        ImageMatcherFactory ImageMatcherFactory = new ImageMatcherFactory();
         public MainWindow()
         {
             InitializeComponent();
-            List<KeyValuePair<string, string>> images =
-                new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string,string>("Image1", @"C:\Users\EricHewett\Pictures\Lonely Tree.jpg"),
-                    new KeyValuePair<string,string>("Image2", @"C:\Users\EricHewett\Pictures\Lonely Tree.jpg"),
-                    new KeyValuePair<string,string>("Image3", @"C:\Users\EricHewett\Pictures\Lonely Tree.jpg")
-                };
-
-            imageList.ItemsSource = images;
-
-
             this.folderBrowserDialog1 = new WinForms.FolderBrowserDialog();
             this.folderBrowserDialog1.ShowNewFolderButton = false;
-
-            // Default to the My Documents folder.
-            //this.folderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyPictures;
         }
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)
@@ -53,24 +37,20 @@ namespace ImageMatcherDisplay
             WinForms.DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == WinForms.DialogResult.OK)
             {
-                folderName = folderBrowserDialog1.SelectedPath;
+                var folderName = folderBrowserDialog1.SelectedPath;
+                bool fileOpened = false;
                 if (!fileOpened)
                 {
-                    // No file is opened, bring up openFileDialog in selected path.
-
+                    ImageMatcherFactory.PrepareImageFileList(folderName);
+                    imageList.ItemsSource = ImageMatcherFactory.GetListImageFilesandNames();
                 }
             }
         }
-
-        //OpenFileDialog openFileDialog = new OpenFileDialog();
-        //    if (openFileDialog.ShowDialog() == true)
-        //        txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
-
     }
 }
 
 
-//TODO folder picker 
+//TODO folder picker - This stalled - thread?
 //TODO file picker - load image class list
 //TODO Image Grid
 //TODO Image Choose
