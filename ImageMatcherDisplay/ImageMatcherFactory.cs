@@ -63,7 +63,7 @@ namespace ImageMatcherDisplay
             using(StreamReader file = File.OpenText(configFileNameToOpen))
             {
                 JsonSerializer serializer = new JsonSerializer();
-                ImageMatcherConfig ImageMatcherConfig = (ImageMatcherConfig)serializer.Deserialize(file, typeof(ImageMatcherConfig));
+                ImageMatcherConfig = (ImageMatcherConfig)serializer.Deserialize(file, typeof(ImageMatcherConfig));
             }
         }
 
