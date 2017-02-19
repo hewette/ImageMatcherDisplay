@@ -6,12 +6,22 @@
         xmlns:local="clr-namespace:ImageMatcherDisplay"
         mc:Ignorable="d"
         Title="Image Matcher" Height="632.258" Width="1256.048">
+
+    <Window.Resources>
+        <DataTemplate x:Key="ItemTemplate">
+            <WrapPanel>
+                <Image Width="200" Height="300" Stretch="Fill" Source="{Binding}"/>
+                <TextBlock Text="{Binding}"/>
+            </WrapPanel>
+        </DataTemplate>
+    </Window.Resources>
+
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New" />
-                <MenuItem Header="_Open" />
-                <MenuItem Header="_Save" />
+                <MenuItem Header="_Open" Click="MenuItem_OpenConfig_OnClick"/>
+                <MenuItem Header="_Save" Click="MenuItemSaveConfig_OnClick" />
                 <Separator />
                 <MenuItem Header="_Exit" />
             </MenuItem>
@@ -32,22 +42,24 @@
             </TabItem>
             <TabItem Header="Bigger">
                 <StackPanel>
-                    <ItemsControl Name="imageList">
-                        <ItemsControl.ItemsPanel>
+                    <ListBox ItemsSource="{Binding Path=imageSource, ElementName=AdminWindow}">
+                        <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel></StackPanel>
+                                <WrapPanel />
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <!-- The Image binding -->
-                                <Image Source="{Binding Path=Value}" />
+                                <StackPanel Orientation="Vertical">
+                                    <Image Source="{Binding Path=Value}"></Image>
+                                    <Label Content="{Binding Path=Key}"></Label>
+                                </StackPanel>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </StackPanel>
             </TabItem>
-
         </TabControl>
     </DockPanel>
+
 </Window>

@@ -1,6 +1,6 @@
 ﻿using ImageMatcherDisplay;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System.Drawing;
 namespace ImageMatcherDisplayTests
 {
     [TestClass()]

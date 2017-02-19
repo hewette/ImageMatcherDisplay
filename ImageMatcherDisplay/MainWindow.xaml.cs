@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Drawing;
+using System.Windows.Forms.Design;
 using WinForms = System.Windows.Forms;
 namespace ImageMatcherDisplay
 {
@@ -24,6 +25,7 @@ namespace ImageMatcherDisplay
     public partial class MainWindow : Window
     {
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
+        private FileInfo configFileInfo;
         ImageMatcherFactory ImageMatcherFactory = new ImageMatcherFactory();
         public MainWindow()
         {
@@ -34,17 +36,37 @@ namespace ImageMatcherDisplay
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)
         {
+            this.folderBrowserDialog1.SelectedPath = ImageMatcherFactory.GetConfig().ImagesFolder;
             WinForms.DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == WinForms.DialogResult.OK)
             {
                 var folderName = folderBrowserDialog1.SelectedPath;
+                ImageMatcherFactory.SetConfig(folderName);
                 bool fileOpened = false;
                 if (!fileOpened)
                 {
                     ImageMatcherFactory.PrepareImageFileList(folderName);
-                    imageList.ItemsSource = ImageMatcherFactory.GetListImageFilesandNames();
+                    var imageSource = ImageMatcherFactory.GetListImageFilesandNames();
                 }
             }
+        }
+
+        private void MenuItemSaveConfig_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (configFileInfo == null)
+            {
+                WinForms.SaveFileDialog configFileSaveFileDialog = new WinForms.SaveFileDialog();
+                if (configFileSaveFileDialog.ShowDialog()== System.Windows.Forms.DialogResult.OK)
+
+                    ImageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+            }
+        }
+
+        private void MenuItem_OpenConfig_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                ImageMatcherFactory.LoadConfigFromFile(openFileDialog.FileName);
         }
     }
 }
