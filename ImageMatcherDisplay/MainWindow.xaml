@@ -37,27 +37,31 @@
 
         <TabControl HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch">
-            <TabItem Header="Small">
+            <TabItem Header="Projected Image">
                 <TextBlock Text="Just Some Small Stuff" />
             </TabItem>
-            <TabItem Header="Bigger">
-                <StackPanel>
-                    <ListBox ItemsSource="{Binding Path=imageSource, ElementName=AdminWindow}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical">
-                                    <Image Source="{Binding Path=Value}"></Image>
-                                    <Label Content="{Binding Path=Key}"></Label>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
+            <TabItem Header="Light Table">
+                <Grid Name="ImageGrid">
+                    <!--<Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="FirstColumn" Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="28" />
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="E-Mail:"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Comment:"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Margin="3" />
+                    <TextBox Grid.Column="1" Grid.Row="1" Margin="3" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Margin="3" />
+                    <Button Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" 
+                        MinWidth="80" Margin="3" Content="Send"  />-->
+                </Grid>
             </TabItem>
         </TabControl>
     </DockPanel>

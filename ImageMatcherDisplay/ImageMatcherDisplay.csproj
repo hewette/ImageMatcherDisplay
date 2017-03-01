@@ -72,6 +72,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GridViewHelper.cs" />
+    <Compile Include="IImageMatcherConfig.cs" />
     <Compile Include="ImageFile.cs" />
     <Compile Include="ImageFileListProcessor.cs" />
     <Compile Include="ImageMatcherConfig.cs" />

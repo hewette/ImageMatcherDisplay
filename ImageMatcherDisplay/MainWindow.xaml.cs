@@ -81,7 +81,7 @@ namespace ImageMatcherDisplay
 //TODO Image magnify
 //TODO Remove matched image
 //TODO Score
-//TODO multiple images locagtions
+//TODO multiple images locations
 //TODO Switch monitors
 //TODO Score config - Present/Match/Better image/Loose
 //TODO Reset Score

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace ImageMatcherDisplay
 {
-    public class ImageMatcherConfig
+    public class ImageMatcherConfig : IImageMatcherConfig
     {
+        private const int DefaultColumnCount = 4;
         public string ImagesFolder { get; set; }
+        public int NumberofColumnsInImageGrid { get; set; } = DefaultColumnCount;
     }
 }
