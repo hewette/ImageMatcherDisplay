@@ -19,13 +19,13 @@ namespace ImageMatcherDisplayTests
             Assert.IsNotNull(_imageMatcherFactory.ListImageFile);
         }
     
-        [TestMethod()]
-        public void GetListImageFilesandNamesTest_Get_Prepared_List_Returns_List_Of_Six_Images()
-        {
-            _imageMatcherFactory.PrepareImageFileList(@"..\..\TestImages\Test2");
-            var itemsSource = _imageMatcherFactory.GetListImageFilesandNames();
-            Assert.AreEqual(6,itemsSource.Count);
-        }
+        //[TestMethod()]
+        //public void GetListImageFilesandNamesTest_Get_Prepared_List_Returns_List_Of_Six_Images()
+        //{
+        //    _imageMatcherFactory.PrepareImageFileList(@"..\..\TestImages\Test2");
+        //    var itemsSource = _imageMatcherFactory.GetListImageFilesandNames();
+        //    Assert.AreEqual(6,itemsSource.Count);
+        //}
     }
 }
 

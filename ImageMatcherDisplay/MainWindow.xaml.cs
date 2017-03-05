@@ -46,7 +46,7 @@ namespace ImageMatcherDisplay
                 if (!fileOpened)
                 {
                     ImageMatcherFactory.PrepareImageFileList(folderName);
-                    var imageSource = ImageMatcherFactory.GetListImageFilesandNames();
+                    ImageMatcherFactory.DisplayGrid(ImageGrid);
                 }
             }
         }

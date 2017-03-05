@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using Newtonsoft.Json;
+using System.Windows.Controls;
 
 namespace ImageMatcherDisplay
 {
@@ -19,9 +20,16 @@ namespace ImageMatcherDisplay
 
         public ImageMatcherConfig GetConfig()
         {
-            if (ImageMatcherConfig != null) return ImageMatcherConfig;
+            if (ImageMatcherConfig != null)
+            {
+                if(ImageMatcherConfig.ListImageFile!=null)
+                {
+                    ListImageFile = ImageMatcherConfig.ListImageFile;
+                }
+                return ImageMatcherConfig;
+            }
             ImageMatcherConfig = new ImageMatcherConfig();
-            ImageMatcherConfig.ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures); ;
+            ImageMatcherConfig.ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures); 
             return ImageMatcherConfig;
         }
 
@@ -46,6 +54,11 @@ namespace ImageMatcherDisplay
         {
             ImageFileListProcessor imageFileProcessor = new ImageFileListProcessor();
             ListImageFile = imageFileProcessor.ProcessFolder(path);
+            if (ImageMatcherConfig == null) //TODO refactor
+            {
+                ImageMatcherConfig = new ImageMatcherConfig();
+            }
+            ImageMatcherConfig.ListImageFile = ListImageFile;
         }
 
         public void SaveConfigToFile(string configFileName)
@@ -67,6 +80,13 @@ namespace ImageMatcherDisplay
             }
         }
 
+        public void DisplayGrid(Grid ImageGrid)
+        {
+            GridViewHelper GridViewHelper = new GridViewHelper(ImageMatcherConfig);
+            GridViewHelper.prepareGrid(ImageGrid, ListImageFile);
+            GridViewHelper = null;
+        }
+
         //publc List<KeyValuePair<string, string>> GetListImageFilesandNames(bool used=false, bool discarded=false)
         //{
         //    return ListImageFile.Where(f => f.discard == discarded && f.used == used)
@@ -74,16 +94,16 @@ namespace ImageMatcherDisplay
         //        .ToList();
         //}
 
-        public List<KeyValuePair<string, Image>> GetListImageFilesandNames(bool used = false, bool discarded = false)
-        {
-            return ListImageFile.Where(f => f.discard == discarded && f.used == used)
-                        .Select(imageFile => new KeyValuePair<string, Image>(
-                            imageFile
-                                .ImageFileInfo.Name, Image.FromFile(imageFile.ImageFileInfo.FullName)
-                                .GetThumbnailImage(120, 120, () => false, IntPtr.Zero))
-                    )
-                .ToList();
-        }
+        //public List<KeyValuePair<string, Image>> GetListImageFilesandNames(bool used = false, bool discarded = false)
+        //{
+        //    return ListImageFile.Where(f => f.discard == discarded && f.used == used)
+        //                .Select(imageFile => new KeyValuePair<string, Image>(
+        //                    imageFile
+        //                        .ImageFileInfo.Name, Image.FromFile(imageFile.ImageFileInfo.FullName)
+        //                        .GetThumbnailImage(120, 120, () => false, IntPtr.Zero))
+        //            )
+        //        .ToList();
+        //}
 
     }
 }

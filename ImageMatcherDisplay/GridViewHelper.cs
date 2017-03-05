@@ -29,12 +29,33 @@ namespace ImageMatcherDisplay
         {
             _imageMatcherConfig = imageMatcherConfig;
         }
-        public void prepareGrid(Grid ImageGrid)
+        public void prepareGrid(Grid ImageGrid, List<ImageFile> ListImageFile)
         {
-           var cd = new ColumnDefinition();
+            if (ListImageFile.Count == 0) return;
+            var cd = new ColumnDefinition();
             for (int i = 0; i< _imageMatcherConfig.NumberofColumnsInImageGrid;i++)
             {
                 ImageGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            //double x = ListImageFile.Count / _imageMatcherConfig.NumberofColumnsInImageGrid;
+            double imageRowsDBL = Math.Ceiling((float)ListImageFile.Count / (float)_imageMatcherConfig.NumberofColumnsInImageGrid);
+            int imageRows = (int)imageRowsDBL;
+            imageRows = imageRows <= 0 ? 1 : imageRows;
+            for (int iRow = 0;  iRow< imageRows;iRow++ )
+            {
+                ImageGrid.RowDefinitions.Add(new RowDefinition());
+                for (int iColumn = 0; iColumn < _imageMatcherConfig.NumberofColumnsInImageGrid; iColumn++)
+                {
+                    int currentImageNo = (iRow * iRow == 0 ? 0 : _imageMatcherConfig.NumberofColumnsInImageGrid + 1) * (iColumn);
+                    if (currentImageNo > ListImageFile.Count - 1) break;
+                    var img = new System.Windows.Controls.Image();
+                    img.Height = 200;
+                    img.Width = 100;
+                    img.Source = new BitmapImage(new Uri(ListImageFile[currentImageNo].ImageFileInfo.FullName));
+                    Grid.SetColumn(img, iColumn);
+                    Grid.SetRow(img, iRow);
+                    ImageGrid.Children.Add(img);
+                }
             }
         }
     }
