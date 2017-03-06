@@ -18,6 +18,7 @@ namespace ImageMatcherDisplay
         public List<ImageFile> ListImageFile { private set; get; }
         private ImageMatcherConfig ImageMatcherConfig;
 
+    
         public ImageMatcherConfig GetConfig()
         {
             if (ImageMatcherConfig != null)

@@ -37,21 +37,19 @@ namespace ImageMatcherDisplay
             {
                 ImageGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            //double x = ListImageFile.Count / _imageMatcherConfig.NumberofColumnsInImageGrid;
-            double imageRowsDBL = Math.Ceiling((float)ListImageFile.Count / (float)_imageMatcherConfig.NumberofColumnsInImageGrid);
-            int imageRows = (int)imageRowsDBL;
+            int imageRows = (int)Math.Ceiling((float)ListImageFile.Count / (float)_imageMatcherConfig.NumberofColumnsInImageGrid);
             imageRows = imageRows <= 0 ? 1 : imageRows;
+            int currentImageNo = 0;
             for (int iRow = 0;  iRow< imageRows;iRow++ )
             {
                 ImageGrid.RowDefinitions.Add(new RowDefinition());
                 for (int iColumn = 0; iColumn < _imageMatcherConfig.NumberofColumnsInImageGrid; iColumn++)
                 {
-                    int currentImageNo = (iRow * iRow == 0 ? 0 : _imageMatcherConfig.NumberofColumnsInImageGrid + 1) * (iColumn);
                     if (currentImageNo > ListImageFile.Count - 1) break;
                     var img = new System.Windows.Controls.Image();
-                    img.Height = 200;
-                    img.Width = 100;
-                    img.Source = new BitmapImage(new Uri(ListImageFile[currentImageNo].ImageFileInfo.FullName));
+                    img.Height = 500; //todo magic no
+                    img.Width = 500;  //todo magic no
+                    img.Source = new BitmapImage(new Uri(ListImageFile[currentImageNo++].ImageFileInfo.FullName));
                     Grid.SetColumn(img, iColumn);
                     Grid.SetRow(img, iRow);
                     ImageGrid.Children.Add(img);

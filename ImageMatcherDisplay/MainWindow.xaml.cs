@@ -66,7 +66,12 @@ namespace ImageMatcherDisplay
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
+            {
                 ImageMatcherFactory.LoadConfigFromFile(openFileDialog.FileName);
+                var imfc = ImageMatcherFactory.GetConfig();
+                ImageMatcherFactory.PrepareImageFileList(imfc.ImagesFolder);
+                ImageMatcherFactory.DisplayGrid(ImageGrid);
+            }
         }
     }
 }
@@ -88,3 +93,20 @@ namespace ImageMatcherDisplay
 //TODO Set max image nos
 //TODO Salmon button
 //TODO Timer
+
+//manual gather - NewPrimary name ----------------------------------
+//WinApi.DISPLAY_DEVICE ddOne = new WinApi.DISPLAY_DEVICE();
+
+//ddOne.cb = Marshal.SizeOf(ddOne);
+//deviceID = 1;
+//WinApi.User_32.EnumDisplayDevices(null, deviceID, ref ddOne, 0);
+//string NewPrimary = ddOne.DeviceName;
+
+//WinApi.DEVMODE ndm6 = NewDevMode();
+//result = (WinApi.DisplaySetting_Results)WinApi.User_32.ChangeDisplaySettingsEx(NewPrimary, 
+//          ref ndm6, (IntPtr)null, (int)WinApi.DeviceFlags.CDS_SET_PRIMARY | 
+//          (int)WinApi.DeviceFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
+//Console.WriteLine("Action 3.2 result:" + result.ToString());
+
+//System.Windows.Forms.Screens
+
