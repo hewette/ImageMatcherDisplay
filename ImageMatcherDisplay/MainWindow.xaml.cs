@@ -25,7 +25,6 @@ namespace ImageMatcherDisplay
     public partial class MainWindow : Window
     {
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
-        private FileInfo configFileInfo;
         ImageMatcherFactory ImageMatcherFactory = new ImageMatcherFactory();
         public MainWindow()
         {
@@ -36,7 +35,7 @@ namespace ImageMatcherDisplay
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)
         {
-            this.folderBrowserDialog1.SelectedPath = ImageMatcherFactory.GetConfig().ImagesFolder;
+            this.folderBrowserDialog1.SelectedPath = ImageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG).ImagesFolder;
             WinForms.DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == WinForms.DialogResult.OK)
             {
@@ -51,9 +50,9 @@ namespace ImageMatcherDisplay
             }
         }
 
-        private void MenuItemSaveConfig_OnClick(object sender, RoutedEventArgs e)
+        private void MenuItem_SaveConfig_OnClick(object sender, RoutedEventArgs e)
         {
-            if (configFileInfo == null)
+            if (ImageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) == null)
             {
                 WinForms.SaveFileDialog configFileSaveFileDialog = new WinForms.SaveFileDialog();
                 if (configFileSaveFileDialog.ShowDialog()== System.Windows.Forms.DialogResult.OK)
@@ -68,10 +67,35 @@ namespace ImageMatcherDisplay
             if (openFileDialog.ShowDialog() == true)
             {
                 ImageMatcherFactory.LoadConfigFromFile(openFileDialog.FileName);
-                var imfc = ImageMatcherFactory.GetConfig();
+                var imfc = ImageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG);
                 ImageMatcherFactory.PrepareImageFileList(imfc.ImagesFolder);
                 ImageMatcherFactory.DisplayGrid(ImageGrid);
             }
+        }
+
+        private void MenuItem_NewConfig_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (ImageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) != null)
+            {
+                WinForms.SaveFileDialog configFileSaveFileDialog = new WinForms.SaveFileDialog();
+                if (configFileSaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+
+                    ImageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+            }
+            ImageMatcherFactory.CreateConfigFile(ImageMatcherFactory.CREATE_CONFIG);
+        }
+
+        private void MenuItem_Close_OnClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Image_Clicked(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)((Button)sender).Content;
+            projectedImage.Source = ButtonImage.Source;
+            //grdDetails.Visibility = Visibility.Collapsed;
+            //grdZoomImage.Visibility = Visibility.Visible;
         }
     }
 }

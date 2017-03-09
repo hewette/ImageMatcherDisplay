@@ -15,23 +15,36 @@ namespace ImageMatcherDisplay
 {
     public class ImageMatcherFactory
     {
+        public const bool CREATE_CONFIG = true;
+        public const bool DONT_CREATE_CONFIG = false;
         public List<ImageFile> ListImageFile { private set; get; }
         private ImageMatcherConfig ImageMatcherConfig;
 
     
-        public ImageMatcherConfig GetConfig()
+        public ImageMatcherConfig GetConfig(bool createConfig)
         {
             if (ImageMatcherConfig != null)
             {
-                if(ImageMatcherConfig.ListImageFile!=null)
+                if (ImageMatcherConfig.ListImageFile != null)
                 {
                     ListImageFile = ImageMatcherConfig.ListImageFile;
                 }
                 return ImageMatcherConfig;
             }
-            ImageMatcherConfig = new ImageMatcherConfig();
-            ImageMatcherConfig.ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures); 
+
+            CreateConfigFile(createConfig);
             return ImageMatcherConfig;
+        }
+
+        public void CreateConfigFile(bool createConfig)
+        {
+            if (createConfig==CREATE_CONFIG)
+            {
+                ImageMatcherConfig = new ImageMatcherConfig()
+                {
+                    ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
+                };
+            }
         }
 
         public void SetConfig(string selectedFolder)

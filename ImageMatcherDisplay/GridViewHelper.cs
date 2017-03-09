@@ -46,13 +46,17 @@ namespace ImageMatcherDisplay
                 for (int iColumn = 0; iColumn < _imageMatcherConfig.NumberofColumnsInImageGrid; iColumn++)
                 {
                     if (currentImageNo > ListImageFile.Count - 1) break;
+                    var btn = new System.Windows.Controls.Button();
                     var img = new System.Windows.Controls.Image();
                     img.Height = 500; //todo magic no
                     img.Width = 500;  //todo magic no
+                    img.Margin = new Thickness(5);
                     img.Source = new BitmapImage(new Uri(ListImageFile[currentImageNo++].ImageFileInfo.FullName));
-                    Grid.SetColumn(img, iColumn);
-                    Grid.SetRow(img, iRow);
-                    ImageGrid.Children.Add(img);
+                    btn.Content = img;
+                    //TODO btn.Click += Application.C btn_Click;
+                    Grid.SetColumn(btn, iColumn);
+                    Grid.SetRow(btn, iRow);
+                    ImageGrid.Children.Add(btn);
                 }
             }
         }
