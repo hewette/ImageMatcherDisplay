@@ -15,6 +15,7 @@ namespace ImageMatcherDisplay
 {
     public class ImageMatcherFactory
     {
+    
         public const bool CREATE_CONFIG = true;
         public const bool DONT_CREATE_CONFIG = false;
         public List<ImageFile> ListImageFile { private set; get; }
@@ -100,6 +101,7 @@ namespace ImageMatcherDisplay
             GridViewHelper.prepareGrid(ImageGrid, ListImageFile);
             GridViewHelper = null;
         }
+
 
         //publc List<KeyValuePair<string, string>> GetListImageFilesandNames(bool used=false, bool discarded=false)
         //{

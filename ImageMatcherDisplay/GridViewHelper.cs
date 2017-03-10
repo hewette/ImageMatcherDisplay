@@ -48,17 +48,23 @@ namespace ImageMatcherDisplay
                     if (currentImageNo > ListImageFile.Count - 1) break;
                     var btn = new System.Windows.Controls.Button();
                     var img = new System.Windows.Controls.Image();
+                    //btn.Name = currentImageNo.ToString();
                     img.Height = 500; //todo magic no
                     img.Width = 500;  //todo magic no
                     img.Margin = new Thickness(5);
                     img.Source = new BitmapImage(new Uri(ListImageFile[currentImageNo++].ImageFileInfo.FullName));
                     btn.Content = img;
-                    //TODO btn.Click += Application.C btn_Click;
                     Grid.SetColumn(btn, iColumn);
                     Grid.SetRow(btn, iRow);
+                    btn.Click += ImageButtonClicked;
                     ImageGrid.Children.Add(btn);
                 }
             }
+        }
+
+        private void ImageButtonClicked(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show(this.ToString(), "clicked image button" + ((System.Windows.Controls.Button)sender).Name);
         }
     }
 }
