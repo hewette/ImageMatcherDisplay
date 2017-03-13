@@ -94,6 +94,8 @@ namespace ImageMatcherDisplay
         {
             System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)((Button)sender).Content;
             projectedImage.Source = ButtonImage.Source;
+            projectedImage.Height =500;
+            projectedImage.Width = 600;
             //grdDetails.Visibility = Visibility.Collapsed;
             //grdZoomImage.Visibility = Visibility.Visible;
         }

@@ -54,6 +54,7 @@ namespace ImageMatcherDisplay
                     img.Margin = new Thickness(5);
                     img.Source = new BitmapImage(new Uri(ListImageFile[currentImageNo++].ImageFileInfo.FullName));
                     btn.Content = img;
+                    btn.ToolTip = ListImageFile[currentImageNo++].ImageFileInfo.FullName;
                     Grid.SetColumn(btn, iColumn);
                     Grid.SetRow(btn, iRow);
                     btn.Click += ImageButtonClicked;
@@ -64,7 +65,12 @@ namespace ImageMatcherDisplay
 
         private void ImageButtonClicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show(this.ToString(), "clicked image button" + ((System.Windows.Controls.Button)sender).Name);
+            System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
+            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
+            //projectedImage.Source = ButtonImage.Source;
+            //projectedImage.Height =500;
+            //projectedImage.Width = 600;
+
         }
     }
 }
