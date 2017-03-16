@@ -26,11 +26,15 @@ namespace ImageMatcherDisplay
     {
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
         ImageMatcherFactory ImageMatcherFactory = new ImageMatcherFactory();
+        public delegate void _gridClickEventDelegate(object sender, RoutedEventArgs e);
+        private _gridClickEventDelegate _gridClickEventHandler;
+
         public MainWindow()
         {
             InitializeComponent();
             this.folderBrowserDialog1 = new WinForms.FolderBrowserDialog();
             this.folderBrowserDialog1.ShowNewFolderButton = false;
+            _gridClickEventHandler =  Image_Clicked;
         }
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)

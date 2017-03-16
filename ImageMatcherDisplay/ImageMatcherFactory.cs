@@ -20,7 +20,7 @@ namespace ImageMatcherDisplay
         public const bool DONT_CREATE_CONFIG = false;
         public List<ImageFile> ListImageFile { private set; get; }
         private ImageMatcherConfig ImageMatcherConfig;
-
+        //public System.Windows.Controls.Image ProjectedIamge {get;set;}
     
         public ImageMatcherConfig GetConfig(bool createConfig)
         {
