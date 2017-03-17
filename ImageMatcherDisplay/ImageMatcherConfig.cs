@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ImageMatcherDisplay
+﻿namespace ImageMatcherDisplay
 {
+    using System.Collections.Generic;
     public class ImageMatcherConfig : IImageMatcherConfig
     {
         private const int DefaultColumnCount = 4;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageMatcherDisplay"
         mc:Ignorable="d"
-        Title="Image Matcher" Height="632.258" Width="1256.048">
+        Title="Image Matcher">
 
     <Window.Resources>
         <DataTemplate x:Key="ItemTemplate">
@@ -19,51 +19,34 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New" />
+                <MenuItem Header="_New" Click="MenuItem_NewConfig_OnClick"/>
                 <MenuItem Header="_Open" Click="MenuItem_OpenConfig_OnClick"/>
-                <MenuItem Header="_Save" Click="MenuItemSaveConfig_OnClick" />
+                <MenuItem Header="_Save" Click="MenuItem_SaveConfig_OnClick" />
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Click="MenuItem_Close_OnClick"/>
             </MenuItem>
             <MenuItem Header="Images">
                 <MenuItem Header="_Get Images" Click="MenuItemGetImage_OnClick" />
             </MenuItem>
         </Menu>
         <TextBox AcceptsReturn="True" />
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
+        <!--<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
             <TextBlock Text="Hello" />
             <TextBlock Text="World" />
-        </StackPanel>
+        </StackPanel>-->
 
-        <TabControl HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch">
-            <TabItem Header="Projected Image">
-                <TextBlock Text="Just Some Small Stuff" />
-            </TabItem>
+        <TabControl Name="MainTabGroup" HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
             <TabItem Header="Light Table">
                 <Grid Name="ImageGrid">
-                    <!--<Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="FirstColumn" Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="28" />
-                    </Grid.RowDefinitions>
-                    
-                    <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
-                    <Label Grid.Row="1" Grid.Column="0" Content="E-Mail:"/>
-                    <Label Grid.Row="2" Grid.Column="0" Content="Comment:"/>
-                    <TextBox Grid.Column="1" Grid.Row="0" Margin="3" />
-                    <TextBox Grid.Column="1" Grid.Row="1" Margin="3" />
-                    <TextBox Grid.Column="1" Grid.Row="2" Margin="3" />
-                    <Button Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" 
-                        MinWidth="80" Margin="3" Content="Send"  />-->
                 </Grid>
             </TabItem>
+            <TabItem Header="Projected Image">
+                <Image Name="projectedImage" />
+            </TabItem>
         </TabControl>
-    </DockPanel>
 
+        <!--<Label DockPanel.Dock="Bottom"  Name="lblTime" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button  DockPanel.Dock="Bottom" Content="Button" Height="571" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75"/>-->
+    </DockPanel>
 </Window>

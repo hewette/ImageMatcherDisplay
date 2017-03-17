@@ -1,37 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.IO;
-using Newtonsoft.Json;
-using System.Windows.Controls;
-
-namespace ImageMatcherDisplay
+﻿namespace ImageMatcherDisplay
 {
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Windows.Controls;
+
     public class ImageMatcherFactory
     {
+
+        public const bool CREATE_CONFIG = true;
+        public const bool DONT_CREATE_CONFIG = false;
+        public _gridClickEventDelegate GridClickEventHandler { get; set; }
         public List<ImageFile> ListImageFile { private set; get; }
         private ImageMatcherConfig ImageMatcherConfig;
 
-    
-        public ImageMatcherConfig GetConfig()
+        //public System.Windows.Controls.Image ProjectedIamge {get;set;}
+
+        public ImageMatcherConfig GetConfig(bool createConfig)
         {
             if (ImageMatcherConfig != null)
             {
-                if(ImageMatcherConfig.ListImageFile!=null)
+                if (ImageMatcherConfig.ListImageFile != null)
                 {
                     ListImageFile = ImageMatcherConfig.ListImageFile;
                 }
                 return ImageMatcherConfig;
             }
-            ImageMatcherConfig = new ImageMatcherConfig();
-            ImageMatcherConfig.ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures); 
+
+            CreateConfigFile(createConfig);
             return ImageMatcherConfig;
+        }
+
+        public void CreateConfigFile(bool createConfig)
+        {
+            if (createConfig == CREATE_CONFIG)
+            {
+                ImageMatcherConfig = new ImageMatcherConfig()
+                {
+                    ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
+                };
+            }
         }
 
         public void SetConfig(string selectedFolder)
@@ -63,10 +72,10 @@ namespace ImageMatcherDisplay
         }
 
         public void SaveConfigToFile(string configFileName)
-        { 
+        {
             JsonSerializer Serializer = new JsonSerializer();
             using (StreamWriter sw = new StreamWriter(configFileName))
-            using(JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 Serializer.Serialize(writer, ImageMatcherConfig);
             }
@@ -74,7 +83,7 @@ namespace ImageMatcherDisplay
 
         public void LoadConfigFromFile(string configFileNameToOpen)
         {
-            using(StreamReader file = File.OpenText(configFileNameToOpen))
+            using (StreamReader file = File.OpenText(configFileNameToOpen))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 ImageMatcherConfig = (ImageMatcherConfig)serializer.Deserialize(file, typeof(ImageMatcherConfig));
@@ -84,9 +93,11 @@ namespace ImageMatcherDisplay
         public void DisplayGrid(Grid ImageGrid)
         {
             GridViewHelper GridViewHelper = new GridViewHelper(ImageMatcherConfig);
+            GridViewHelper.GridClickEventHandler = GridClickEventHandler;
             GridViewHelper.prepareGrid(ImageGrid, ListImageFile);
             GridViewHelper = null;
         }
+
 
         //publc List<KeyValuePair<string, string>> GetListImageFilesandNames(bool used=false, bool discarded=false)
         //{
