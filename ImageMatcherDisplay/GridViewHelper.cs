@@ -22,8 +22,9 @@ using System.Windows.Forms;
 
 namespace ImageMatcherDisplay
 {
-    class GridViewHelper
+    public class GridViewHelper
     {
+        public _gridClickEventDelegate GridClickEventHandler{get;set;}
         IImageMatcherConfig _imageMatcherConfig;
         public GridViewHelper(IImageMatcherConfig imageMatcherConfig)
         {
@@ -57,7 +58,7 @@ namespace ImageMatcherDisplay
                     btn.ToolTip = ListImageFile[currentImageNo++].ImageFileInfo.FullName;
                     Grid.SetColumn(btn, iColumn);
                     Grid.SetRow(btn, iRow);
-                    btn.Click += ImageButtonClicked;
+                    btn.Click += (System.Windows.RoutedEventHandler)GridClickEventHandler;
                     ImageGrid.Children.Add(btn);
                 }
             }

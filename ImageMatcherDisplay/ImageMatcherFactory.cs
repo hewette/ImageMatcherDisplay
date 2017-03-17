@@ -19,7 +19,9 @@ namespace ImageMatcherDisplay
         public const bool CREATE_CONFIG = true;
         public const bool DONT_CREATE_CONFIG = false;
         public List<ImageFile> ListImageFile { private set; get; }
+        public _gridClickEventDelegate GridClickEventHandler{get;set;}
         private ImageMatcherConfig ImageMatcherConfig;
+
         //public System.Windows.Controls.Image ProjectedIamge {get;set;}
     
         public ImageMatcherConfig GetConfig(bool createConfig)
@@ -98,6 +100,7 @@ namespace ImageMatcherDisplay
         public void DisplayGrid(Grid ImageGrid)
         {
             GridViewHelper GridViewHelper = new GridViewHelper(ImageMatcherConfig);
+            GridViewHelper.GridClickEventHandler = GridClickEventHandler;
             GridViewHelper.prepareGrid(ImageGrid, ListImageFile);
             GridViewHelper = null;
         }

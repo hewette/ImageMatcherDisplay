@@ -22,11 +22,12 @@ namespace ImageMatcherDisplay
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    public delegate void _gridClickEventDelegate(object sender, RoutedEventArgs e) ;
+
     public partial class MainWindow : Window
     {
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
-        ImageMatcherFactory ImageMatcherFactory = new ImageMatcherFactory();
-        public delegate void _gridClickEventDelegate(object sender, RoutedEventArgs e);
+        private ImageMatcherFactory ImageMatcherFactory = new ImageMatcherFactory();
         private _gridClickEventDelegate _gridClickEventHandler;
 
         public MainWindow()
@@ -35,6 +36,7 @@ namespace ImageMatcherDisplay
             this.folderBrowserDialog1 = new WinForms.FolderBrowserDialog();
             this.folderBrowserDialog1.ShowNewFolderButton = false;
             _gridClickEventHandler =  Image_Clicked;
+            ImageMatcherFactory.GridClickEventHandler = _gridClickEventHandler;
         }
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)
@@ -96,12 +98,25 @@ namespace ImageMatcherDisplay
 
         private void Image_Clicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)((Button)sender).Content;
+            System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
+            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
+
+            //.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)((Button)sender).Content;
             projectedImage.Source = ButtonImage.Source;
             projectedImage.Height =500;
             projectedImage.Width = 600;
             //grdDetails.Visibility = Visibility.Collapsed;
             //grdZoomImage.Visibility = Visibility.Visible;
+        }
+
+        private void ImageButtonClicked(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
+            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
+            //projectedImage.Source = ButtonImage.Source;
+            //projectedImage.Height =500;
+            //projectedImage.Width = 600;
+
         }
     }
 }
