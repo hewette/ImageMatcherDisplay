@@ -3,6 +3,7 @@
     using Microsoft.Win32;
     using System.Windows;
     using WinForms = System.Windows.Forms;
+    using System.Windows.Threading;
 
     public delegate void _gridClickEventDelegate(object sender, RoutedEventArgs e);
 
@@ -11,6 +12,8 @@
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
         private ImageMatcherFactory _imageMatcherFactory = new ImageMatcherFactory();
         private _gridClickEventDelegate _gridClickEventHandler;
+        private DispatcherTimer _timer = new DispatcherTimer();
+        private int _timerTime = 0;
 
         public MainWindow()
         {
@@ -21,6 +24,7 @@
             };
             _gridClickEventHandler = Image_Clicked;
             _imageMatcherFactory.GridClickEventHandler = _gridClickEventHandler;
+            _timer.Tick += timer_Tick;
         }
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)
@@ -90,19 +94,27 @@
             tabProjectedImage.IsSelected = true;
         }
 
-        //public void DispatcherTimerClicked(object sender, RoutedEventArgs e)
-        //{
-        //        DispatcherTimer timer = new DispatcherTimer();
-        //        timer.Interval = TimeSpan.FromSeconds(1);
-        //        timer.Tick += timer_Tick;
-        //        timer.Start();
-        //}
+        private void btnTimer_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_timer.IsEnabled)
+            {
+                _timerTime = 0;
+                _timer.Interval = System.TimeSpan.FromSeconds(1);
+                _timer.Start();
+                btnTimer.Content = "Stop Timer";
+            }
+            else
+            {
+                _timer.Stop();
+                btnTimer.Content = "Start Timer";
+            }
+        }
 
-        //void timer_Tick(object sender, EventArgs e)
-        //{
-        //        lblTime.Content = DateTime.Now.ToLongTimeString();
-        //}
-
+        void timer_Tick(object sender, System.EventArgs e)
+        {
+            lblTime.Text = "The Clock is ticking: " + _timerTime++.ToString();
+        }
+  
     }
 }
 

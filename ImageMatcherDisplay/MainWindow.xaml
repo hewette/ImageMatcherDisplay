@@ -6,16 +6,6 @@
         xmlns:local="clr-namespace:ImageMatcherDisplay"
         mc:Ignorable="d"
         Title="Image Matcher">
-
-    <Window.Resources>
-        <DataTemplate x:Key="ItemTemplate">
-            <WrapPanel>
-                <Image Width="200" Height="300" Stretch="Fill" Source="{Binding}"/>
-                <TextBlock Text="{Binding}"/>
-            </WrapPanel>
-        </DataTemplate>
-    </Window.Resources>
-
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -30,23 +20,27 @@
             </MenuItem>
         </Menu>
         <TextBox AcceptsReturn="True" />
-        <!--<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Hello" />
-            <TextBlock Text="World" />
-        </StackPanel>-->
 
         <TabControl Name="MainTabGroup" HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+            VerticalAlignment="Stretch" DockPanel.Dock="Top">
             <TabItem  x:Name="tabMaster" Header="Light Table">
-                <Grid Name="ImageGrid">
+                <Grid Name="Main">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition  />
+                    </Grid.ColumnDefinitions>
+                    <Button Name="btnTimer" Grid.Column="0" Click="btnTimer_Click">Start Timer</Button>
+                    <Grid Grid.Column="1" Name="ImageGrid"></Grid>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabProjectedImage" Header="Projected Image">
                 <Image Name="projectedImage" />
             </TabItem>
         </TabControl>
-
-        <!--<Label DockPanel.Dock="Bottom"  Name="lblTime" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Button  DockPanel.Dock="Bottom" Content="Button" Height="571" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="75"/>-->
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="lblTime" />
+            </StatusBarItem>
+        </StatusBar>
     </DockPanel>
 </Window>
