@@ -37,11 +37,11 @@
 
         <TabControl Name="MainTabGroup" HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
-            <TabItem Header="Light Table">
+            <TabItem  x:Name="tabMaster" Header="Light Table">
                 <Grid Name="ImageGrid">
                 </Grid>
             </TabItem>
-            <TabItem Header="Projected Image">
+            <TabItem x:Name="tabProjectedImage" Header="Projected Image">
                 <Image Name="projectedImage" />
             </TabItem>
         </TabControl>

@@ -84,24 +84,10 @@
         {
             //System.Windows.Forms.MessageBox.Show("clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
             System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
-
+            projectedImage.Stretch = System.Windows.Media.Stretch.Fill;
             //.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)((Button)sender).Content;
             projectedImage.Source = ButtonImage.Source;
-            projectedImage.Height = 500;
-            projectedImage.Width = 600;
-            //grdDetails.Visibility = Visibility.Collapsed;
-            //grdZoomImage.Visibility = Visibility.Visible;
-        }
-
-        private void ImageButtonClicked(object sender, RoutedEventArgs e)
-        {
-            //System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
-            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
-            //MainTabGroup.SelectedIndex=1;
-            //projectedImage.Source = ButtonImage.Source;
-            //projectedImage.Height =500;
-            //projectedImage.Width = 600;
-
+            tabProjectedImage.IsSelected = true;
         }
 
         //public void DispatcherTimerClicked(object sender, RoutedEventArgs e)
