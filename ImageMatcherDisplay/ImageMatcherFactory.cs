@@ -1,30 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.IO;
-using Newtonsoft.Json;
-using System.Windows.Controls;
-//Test 
-
-namespace ImageMatcherDisplay
+﻿namespace ImageMatcherDisplay
 {
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Windows.Controls;
+
     public class ImageMatcherFactory
     {
-    
         public const bool CREATE_CONFIG = true;
         public const bool DONT_CREATE_CONFIG = false;
+        public _gridClickEventDelegate GridClickEventHandler { get; set; }
         public List<ImageFile> ListImageFile { private set; get; }
-        public _gridClickEventDelegate GridClickEventHandler{get;set;}
         private ImageMatcherConfig ImageMatcherConfig;
 
-        //public System.Windows.Controls.Image ProjectedIamge {get;set;}
-    
         public ImageMatcherConfig GetConfig(bool createConfig)
         {
             if (ImageMatcherConfig != null)
@@ -42,7 +31,7 @@ namespace ImageMatcherDisplay
 
         public void CreateConfigFile(bool createConfig)
         {
-            if (createConfig==CREATE_CONFIG)
+            if (createConfig == CREATE_CONFIG)
             {
                 ImageMatcherConfig = new ImageMatcherConfig()
                 {
@@ -80,10 +69,10 @@ namespace ImageMatcherDisplay
         }
 
         public void SaveConfigToFile(string configFileName)
-        { 
+        {
             JsonSerializer Serializer = new JsonSerializer();
             using (StreamWriter sw = new StreamWriter(configFileName))
-            using(JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 Serializer.Serialize(writer, ImageMatcherConfig);
             }
@@ -91,7 +80,7 @@ namespace ImageMatcherDisplay
 
         public void LoadConfigFromFile(string configFileNameToOpen)
         {
-            using(StreamReader file = File.OpenText(configFileNameToOpen))
+            using (StreamReader file = File.OpenText(configFileNameToOpen))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 ImageMatcherConfig = (ImageMatcherConfig)serializer.Deserialize(file, typeof(ImageMatcherConfig));
@@ -105,25 +94,5 @@ namespace ImageMatcherDisplay
             GridViewHelper.prepareGrid(ImageGrid, ListImageFile);
             GridViewHelper = null;
         }
-
-
-        //publc List<KeyValuePair<string, string>> GetListImageFilesandNames(bool used=false, bool discarded=false)
-        //{
-        //    return ListImageFile.Where(f => f.discard == discarded && f.used == used)
-        //        .Select(imageFile => new KeyValuePair<string, string>(imageFile.ImageFileInfo.Name, imageFile.ImageFileInfo.FullName))
-        //        .ToList();
-        //}
-
-        //public List<KeyValuePair<string, Image>> GetListImageFilesandNames(bool used = false, bool discarded = false)
-        //{
-        //    return ListImageFile.Where(f => f.discard == discarded && f.used == used)
-        //                .Select(imageFile => new KeyValuePair<string, Image>(
-        //                    imageFile
-        //                        .ImageFileInfo.Name, Image.FromFile(imageFile.ImageFileInfo.FullName)
-        //                        .GetThumbnailImage(120, 120, () => false, IntPtr.Zero))
-        //            )
-        //        .ToList();
-        //}
-
     }
 }

@@ -1,69 +1,57 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
-using System.Drawing;
-using System.Windows.Forms.Design;
-using WinForms = System.Windows.Forms;
-namespace ImageMatcherDisplay
+﻿namespace ImageMatcherDisplay
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public delegate void _gridClickEventDelegate(object sender, RoutedEventArgs e) ;
-    
+    using Microsoft.Win32;
+    using System.Windows;
+    using WinForms = System.Windows.Forms;
+    using System.Windows.Threading;
+
+    public delegate void _gridClickEventDelegate(object sender, RoutedEventArgs e);
+
     public partial class MainWindow : Window
     {
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
-        private ImageMatcherFactory ImageMatcherFactory = new ImageMatcherFactory();
+        private ImageMatcherFactory _imageMatcherFactory = new ImageMatcherFactory();
         private _gridClickEventDelegate _gridClickEventHandler;
+        private DispatcherTimer _timer = new DispatcherTimer();
+        private int _timerTime = 0;
 
         public MainWindow()
         {
             InitializeComponent();
-            this.folderBrowserDialog1 = new WinForms.FolderBrowserDialog();
-            this.folderBrowserDialog1.ShowNewFolderButton = false;
-            _gridClickEventHandler =  Image_Clicked;
-            ImageMatcherFactory.GridClickEventHandler = _gridClickEventHandler;
+            this.folderBrowserDialog1 = new WinForms.FolderBrowserDialog()
+            {
+                ShowNewFolderButton = false
+            };
+            _gridClickEventHandler = Image_Clicked;
+            _imageMatcherFactory.GridClickEventHandler = _gridClickEventHandler;
+            _timer.Tick += timer_Tick;
         }
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)
         {
-            this.folderBrowserDialog1.SelectedPath = ImageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG).ImagesFolder;
+            this.folderBrowserDialog1.SelectedPath = _imageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG).ImagesFolder;
             WinForms.DialogResult result = this.folderBrowserDialog1.ShowDialog();
             if (result == WinForms.DialogResult.OK)
             {
                 var folderName = folderBrowserDialog1.SelectedPath;
-                ImageMatcherFactory.SetConfig(folderName);
+                _imageMatcherFactory.SetConfig(folderName);
                 bool fileOpened = false;
                 if (!fileOpened)
                 {
-                    ImageMatcherFactory.PrepareImageFileList(folderName);
-                    ImageMatcherFactory.DisplayGrid(ImageGrid);
+                    _imageMatcherFactory.PrepareImageFileList(folderName);
+                    _imageMatcherFactory.DisplayGrid(this.ImageGrid);
                 }
             }
         }
 
         private void MenuItem_SaveConfig_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ImageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) == null)
+            if (_imageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) == null)
             {
                 WinForms.SaveFileDialog configFileSaveFileDialog = new WinForms.SaveFileDialog();
-                if (configFileSaveFileDialog.ShowDialog()== System.Windows.Forms.DialogResult.OK)
+                if (configFileSaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 
-                    ImageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+                    _imageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
             }
         }
 
@@ -72,23 +60,23 @@ namespace ImageMatcherDisplay
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                ImageMatcherFactory.LoadConfigFromFile(openFileDialog.FileName);
-                var imfc = ImageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG);
-                ImageMatcherFactory.PrepareImageFileList(imfc.ImagesFolder);
-                ImageMatcherFactory.DisplayGrid(ImageGrid);
+                _imageMatcherFactory.LoadConfigFromFile(openFileDialog.FileName);
+                var imfc = _imageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG);
+                _imageMatcherFactory.PrepareImageFileList(imfc.ImagesFolder);
+                _imageMatcherFactory.DisplayGrid(ImageGrid);
             }
         }
 
         private void MenuItem_NewConfig_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ImageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) != null)
+            if (_imageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) != null)
             {
                 WinForms.SaveFileDialog configFileSaveFileDialog = new WinForms.SaveFileDialog();
                 if (configFileSaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 
-                    ImageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+                    _imageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
             }
-            ImageMatcherFactory.CreateConfigFile(ImageMatcherFactory.CREATE_CONFIG);
+            _imageMatcherFactory.CreateConfigFile(ImageMatcherFactory.CREATE_CONFIG);
         }
 
         private void MenuItem_Close_OnClick(object sender, RoutedEventArgs e)
@@ -98,15 +86,12 @@ namespace ImageMatcherDisplay
 
         private void Image_Clicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
+            //System.Windows.Forms.MessageBox.Show("clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
             System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
-
+            projectedImage.Stretch = System.Windows.Media.Stretch.Fill;
             //.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)((Button)sender).Content;
             projectedImage.Source = ButtonImage.Source;
-            projectedImage.Height =500;
-            projectedImage.Width = 600;
-            //grdDetails.Visibility = Visibility.Collapsed;
-            //grdZoomImage.Visibility = Visibility.Visible;
+            tabProjectedImage.IsSelected = true;
         }
 
         private void ImageButtonClicked(object sender, RoutedEventArgs e)
@@ -117,22 +102,27 @@ namespace ImageMatcherDisplay
             //projectedImage.Source = ButtonImage.Source;
             //projectedImage.Height =500;
             //projectedImage.Width = 600;
-
+        private void btnTimer_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_timer.IsEnabled)
+            {
+                _timerTime = 0;
+                _timer.Interval = System.TimeSpan.FromSeconds(1);
+                _timer.Start();
+                btnTimer.Content = "Stop Timer";
+            }
+            else
+            {
+                _timer.Stop();
+                btnTimer.Content = "Start Timer";
+            }
         }
 
-        //public void DispatcherTimerClicked(object sender, RoutedEventArgs e)
-        //{
-        //        DispatcherTimer timer = new DispatcherTimer();
-        //        timer.Interval = TimeSpan.FromSeconds(1);
-        //        timer.Tick += timer_Tick;
-        //        timer.Start();
-        //}
-
-        //void timer_Tick(object sender, EventArgs e)
-        //{
-        //        lblTime.Content = DateTime.Now.ToLongTimeString();
-        //}
-
+        void timer_Tick(object sender, System.EventArgs e)
+        {
+            lblTime.Text = "The Clock is ticking: " + _timerTime++.ToString();
+        }
+  
     }
 }
 

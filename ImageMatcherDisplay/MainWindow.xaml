@@ -5,48 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageMatcherDisplay"
         mc:Ignorable="d"
-        Title="Image Matcher" Height="632.258" Width="1256.048">
+        Title="Image Matcher">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Click="MenuItem_NewConfig_OnClick"/>
+                <MenuItem Header="_Open" Click="MenuItem_OpenConfig_OnClick"/>
+                <MenuItem Header="_Save" Click="MenuItem_SaveConfig_OnClick" />
+                <Separator />
+                <MenuItem Header="_Exit" Click="MenuItem_Close_OnClick"/>
+            </MenuItem>
+            <MenuItem Header="Images">
+                <MenuItem Header="_Get Images" Click="MenuItemGetImage_OnClick" />
+            </MenuItem>
+        </Menu>
+        <TextBox AcceptsReturn="True" />
 
-    <Window.Resources>
-        <DataTemplate x:Key="ItemTemplate">
-            <WrapPanel>
-                <Image Width="200" Height="300" Stretch="Fill" Source="{Binding}"/>
-                <TextBlock Text="{Binding}"/>
-            </WrapPanel>
-        </DataTemplate>
-    </Window.Resources>
-
-  <DockPanel>
-    <Menu DockPanel.Dock="Top">
-      <MenuItem Header="_File">
-        <MenuItem Header="_New" Click="MenuItem_NewConfig_OnClick"/>
-        <MenuItem Header="_Open" Click="MenuItem_OpenConfig_OnClick"/>
-        <MenuItem Header="_Save" Click="MenuItem_SaveConfig_OnClick" />
-        <Separator />
-        <MenuItem Header="_Exit" Click="MenuItem_Close_OnClick"/>
-      </MenuItem>
-      <MenuItem Header="Images">
-        <MenuItem Header="_Get Images" Click="MenuItemGetImage_OnClick" />
-      </MenuItem>
-    </Menu>
-    <TextBox AcceptsReturn="True" />
-    <!--<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Hello" />
-            <TextBlock Text="World" />
-        </StackPanel>-->
-
-    <TabControl Name="MainTabGroup" HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-      <TabItem Header="Light Table">
-        <Grid Name="ImageGrid">
-        </Grid>
-      </TabItem>
-      <TabItem Header="Projected Image">
-        <Image Name="projectedImage" />
-      </TabItem>
-    </TabControl>
-
-<!--    <Label DockPanel.Dock="Botom"  Name="lblTime" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
--->
-  </DockPanel>
-  </Window>
+        <TabControl Name="MainTabGroup" HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" DockPanel.Dock="Top">
+            <TabItem  x:Name="tabMaster" Header="Light Table">
+                <Grid Name="Main">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition  />
+                    </Grid.ColumnDefinitions>
+                    <Button Name="btnTimer" Grid.Column="0" Click="btnTimer_Click">Start Timer</Button>
+                    <Grid Grid.Column="1" Name="ImageGrid"></Grid>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabProjectedImage" Header="Projected Image">
+                <Image Name="projectedImage" />
+            </TabItem>
+        </TabControl>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="lblTime" />
+            </StatusBarItem>
+        </StatusBar>
+    </DockPanel>
+</Window>
