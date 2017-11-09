@@ -23,7 +23,7 @@ namespace ImageMatcherDisplay
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public delegate void _gridClickEventDelegate(object sender, RoutedEventArgs e) ;
-
+    
     public partial class MainWindow : Window
     {
         private WinForms.FolderBrowserDialog folderBrowserDialog1;
@@ -111,13 +111,28 @@ namespace ImageMatcherDisplay
 
         private void ImageButtonClicked(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
+            //System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
             System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
+            //MainTabGroup.SelectedIndex=1;
             //projectedImage.Source = ButtonImage.Source;
             //projectedImage.Height =500;
             //projectedImage.Width = 600;
 
         }
+
+        //public void DispatcherTimerClicked(object sender, RoutedEventArgs e)
+        //{
+        //        DispatcherTimer timer = new DispatcherTimer();
+        //        timer.Interval = TimeSpan.FromSeconds(1);
+        //        timer.Tick += timer_Tick;
+        //        timer.Start();
+        //}
+
+        //void timer_Tick(object sender, EventArgs e)
+        //{
+        //        lblTime.Content = DateTime.Now.ToLongTimeString();
+        //}
+
     }
 }
 

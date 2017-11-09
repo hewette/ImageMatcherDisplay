@@ -58,7 +58,7 @@ namespace ImageMatcherDisplay
                     btn.ToolTip = ListImageFile[currentImageNo++].ImageFileInfo.FullName;
                     Grid.SetColumn(btn, iColumn);
                     Grid.SetRow(btn, iRow);
-                    btn.Click += (System.Windows.RoutedEventHandler)GridClickEventHandler;
+                    btn.Click += new System.Windows.RoutedEventHandler(GridClickEventHandler);
                     ImageGrid.Children.Add(btn);
                 }
             }

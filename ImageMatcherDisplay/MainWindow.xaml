@@ -16,35 +16,37 @@
         </DataTemplate>
     </Window.Resources>
 
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New" Click="MenuItem_NewConfig_OnClick"/>
-                <MenuItem Header="_Open" Click="MenuItem_OpenConfig_OnClick"/>
-                <MenuItem Header="_Save" Click="MenuItem_SaveConfig_OnClick" />
-                <Separator />
-                <MenuItem Header="_Exit" Click="MenuItem_Close_OnClick"/>
-            </MenuItem>
-            <MenuItem Header="Images">
-                <MenuItem Header="_Get Images" Click="MenuItemGetImage_OnClick" />
-            </MenuItem>
-        </Menu>
-        <TextBox AcceptsReturn="True" />
-        <!--<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
+  <DockPanel>
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="_File">
+        <MenuItem Header="_New" Click="MenuItem_NewConfig_OnClick"/>
+        <MenuItem Header="_Open" Click="MenuItem_OpenConfig_OnClick"/>
+        <MenuItem Header="_Save" Click="MenuItem_SaveConfig_OnClick" />
+        <Separator />
+        <MenuItem Header="_Exit" Click="MenuItem_Close_OnClick"/>
+      </MenuItem>
+      <MenuItem Header="Images">
+        <MenuItem Header="_Get Images" Click="MenuItemGetImage_OnClick" />
+      </MenuItem>
+    </Menu>
+    <TextBox AcceptsReturn="True" />
+    <!--<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
             <TextBlock Text="Hello" />
             <TextBlock Text="World" />
         </StackPanel>-->
 
-        <TabControl HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch">
-            <TabItem Header="Light Table">
-                <Grid Name="ImageGrid">
-                </Grid>
-            </TabItem>
-            <TabItem Header="Projected Image">
-                <Image Name="projectedImage" />
-            </TabItem>
-        </TabControl>
-    </DockPanel>
+    <TabControl Name="MainTabGroup" HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+      <TabItem Header="Light Table">
+        <Grid Name="ImageGrid">
+        </Grid>
+      </TabItem>
+      <TabItem Header="Projected Image">
+        <Image Name="projectedImage" />
+      </TabItem>
+    </TabControl>
 
-</Window>
+<!--    <Label DockPanel.Dock="Botom"  Name="lblTime" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" />
+-->
+  </DockPanel>
+  </Window>
