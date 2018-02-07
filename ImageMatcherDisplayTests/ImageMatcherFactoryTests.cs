@@ -10,13 +10,13 @@ namespace ImageMatcherDisplayTests
         [TestInitialize]
         public void Init_Tests()
         {
-            _imageMatcherFactory = new ImageMatcherFactory();
+            this._imageMatcherFactory = new ImageMatcherFactory();
         }
         [TestMethod()]
         public void PrepareImageFileListTest_PrepareImageList_Returns_Not_Null()
         {
-            _imageMatcherFactory.PrepareImageFileList(@"..\..\TestImages\Test1");
-            Assert.IsNotNull(_imageMatcherFactory.ListImageFile);
+            this._imageMatcherFactory.PrepareImageFileList(@"..\..\TestImages\Test1");
+            Assert.IsNotNull(this._imageMatcherFactory.ListImageFile);
         }
     
         //[TestMethod()]

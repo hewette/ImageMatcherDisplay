@@ -16,24 +16,24 @@
 
         public ImageMatcherConfig GetConfig(bool createConfig)
         {
-            if (ImageMatcherConfig != null)
+            if (this.ImageMatcherConfig != null)
             {
-                if (ImageMatcherConfig.ListImageFile != null)
+                if (this.ImageMatcherConfig.ListImageFile != null)
                 {
-                    ListImageFile = ImageMatcherConfig.ListImageFile;
+                    this.ListImageFile = this.ImageMatcherConfig.ListImageFile;
                 }
-                return ImageMatcherConfig;
+                return this.ImageMatcherConfig;
             }
 
             CreateConfigFile(createConfig);
-            return ImageMatcherConfig;
+            return this.ImageMatcherConfig;
         }
 
         public void CreateConfigFile(bool createConfig)
         {
             if (createConfig == CREATE_CONFIG)
             {
-                ImageMatcherConfig = new ImageMatcherConfig()
+                this.ImageMatcherConfig = new ImageMatcherConfig()
                 {
                     ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
                 };
@@ -42,56 +42,56 @@
 
         public void SetConfig(string selectedFolder)
         {
-            if (ImageMatcherConfig == null)
+            if (this.ImageMatcherConfig == null)
             {
-                ImageMatcherConfig = new ImageMatcherConfig();
+                this.ImageMatcherConfig = new ImageMatcherConfig();
             }
 
             if (selectedFolder.Length == 0 && !Directory.Exists(selectedFolder))
             {
-                ImageMatcherConfig.ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                this.ImageMatcherConfig.ImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             }
             else
             {
-                ImageMatcherConfig.ImagesFolder = selectedFolder;
+                this.ImageMatcherConfig.ImagesFolder = selectedFolder;
             }
         }
 
         public void PrepareImageFileList(string path)
         {
-            ImageFileListProcessor imageFileProcessor = new ImageFileListProcessor();
-            ListImageFile = imageFileProcessor.ProcessFolder(path);
-            if (ImageMatcherConfig == null) //TODO refactor
+            var imageFileProcessor = new ImageFileListProcessor();
+            this.ListImageFile = imageFileProcessor.ProcessFolder(path);
+            if (this.ImageMatcherConfig == null) //TODO refactor
             {
-                ImageMatcherConfig = new ImageMatcherConfig();
+                this.ImageMatcherConfig = new ImageMatcherConfig();
             }
-            ImageMatcherConfig.ListImageFile = ListImageFile;
+            this.ImageMatcherConfig.ListImageFile = this.ListImageFile;
         }
 
         public void SaveConfigToFile(string configFileName)
         {
-            JsonSerializer Serializer = new JsonSerializer();
-            using (StreamWriter sw = new StreamWriter(configFileName))
+            var Serializer = new JsonSerializer();
+            using (var sw = new StreamWriter(configFileName))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
-                Serializer.Serialize(writer, ImageMatcherConfig);
+                Serializer.Serialize(writer, this.ImageMatcherConfig);
             }
         }
 
         public void LoadConfigFromFile(string configFileNameToOpen)
         {
-            using (StreamReader file = File.OpenText(configFileNameToOpen))
+            using (var file = File.OpenText(configFileNameToOpen))
             {
-                JsonSerializer serializer = new JsonSerializer();
-                ImageMatcherConfig = (ImageMatcherConfig)serializer.Deserialize(file, typeof(ImageMatcherConfig));
+                var serializer = new JsonSerializer();
+                this.ImageMatcherConfig = (ImageMatcherConfig)serializer.Deserialize(file, typeof(ImageMatcherConfig));
             }
         }
 
         public void DisplayGrid(Grid ImageGrid)
         {
-            GridViewHelper GridViewHelper = new GridViewHelper(ImageMatcherConfig);
-            GridViewHelper.GridClickEventHandler = GridClickEventHandler;
-            GridViewHelper.prepareGrid(ImageGrid, ListImageFile);
+            var GridViewHelper = new GridViewHelper(this.ImageMatcherConfig);
+            GridViewHelper.GridClickEventHandler = this.GridClickEventHandler;
+            GridViewHelper.PrepareGrid(ImageGrid, this.ListImageFile);
             GridViewHelper = null;
         }
     }

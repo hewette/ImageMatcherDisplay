@@ -22,61 +22,63 @@
             {
                 ShowNewFolderButton = false
             };
-            _gridClickEventHandler = Image_Clicked;
-            _imageMatcherFactory.GridClickEventHandler = _gridClickEventHandler;
-            _timer.Tick += timer_Tick;
+            this._gridClickEventHandler = this.Image_Clicked;
+            this._imageMatcherFactory.GridClickEventHandler = this._gridClickEventHandler;
+            this._timer.Tick += this.timer_Tick;
         }
 
         private void MenuItemGetImage_OnClick(object sender, RoutedEventArgs e)
         {
-            this.folderBrowserDialog1.SelectedPath = _imageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG).ImagesFolder;
-            WinForms.DialogResult result = this.folderBrowserDialog1.ShowDialog();
+            this.folderBrowserDialog1.SelectedPath = this._imageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG).ImagesFolder;
+            var result = this.folderBrowserDialog1.ShowDialog();
             if (result == WinForms.DialogResult.OK)
             {
-                var folderName = folderBrowserDialog1.SelectedPath;
-                _imageMatcherFactory.SetConfig(folderName);
+                string folderName = this.folderBrowserDialog1.SelectedPath;
+                this._imageMatcherFactory.SetConfig(folderName);
                 bool fileOpened = false;
                 if (!fileOpened)
                 {
-                    _imageMatcherFactory.PrepareImageFileList(folderName);
-                    _imageMatcherFactory.DisplayGrid(this.ImageGrid);
+                    this._imageMatcherFactory.PrepareImageFileList(folderName);
+                    this._imageMatcherFactory.DisplayGrid(this.ImageGrid);
                 }
             }
         }
 
         private void MenuItem_SaveConfig_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_imageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) == null)
+            if (this._imageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) == null)
             {
-                WinForms.SaveFileDialog configFileSaveFileDialog = new WinForms.SaveFileDialog();
+                var configFileSaveFileDialog = new WinForms.SaveFileDialog();
                 if (configFileSaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-
-                    _imageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+                {
+                    this._imageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+                }
             }
         }
 
         private void MenuItem_OpenConfig_OnClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                _imageMatcherFactory.LoadConfigFromFile(openFileDialog.FileName);
-                var imfc = _imageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG);
-                _imageMatcherFactory.PrepareImageFileList(imfc.ImagesFolder);
-                _imageMatcherFactory.DisplayGrid(ImageGrid);
+                this._imageMatcherFactory.LoadConfigFromFile(openFileDialog.FileName);
+                var imfc = this._imageMatcherFactory.GetConfig(ImageMatcherFactory.CREATE_CONFIG);
+                this._imageMatcherFactory.PrepareImageFileList(imfc.ImagesFolder);
+                this._imageMatcherFactory.DisplayGrid(this.ImageGrid);
             }
         }
 
         private void MenuItem_NewConfig_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_imageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) != null)
+            if (this._imageMatcherFactory.GetConfig(ImageMatcherFactory.DONT_CREATE_CONFIG) != null)
             {
-                WinForms.SaveFileDialog configFileSaveFileDialog = new WinForms.SaveFileDialog();
+                var configFileSaveFileDialog = new WinForms.SaveFileDialog();
                 if (configFileSaveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-
-                    _imageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+                {
+                    this._imageMatcherFactory.SaveConfigToFile(configFileSaveFileDialog.FileName);
+                }
             }
-            _imageMatcherFactory.CreateConfigFile(ImageMatcherFactory.CREATE_CONFIG);
+            this._imageMatcherFactory.CreateConfigFile(ImageMatcherFactory.CREATE_CONFIG);
         }
 
         private void MenuItem_Close_OnClick(object sender, RoutedEventArgs e)
@@ -87,42 +89,43 @@
         private void Image_Clicked(object sender, RoutedEventArgs e)
         {
             //System.Windows.Forms.MessageBox.Show("clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
-            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
-            projectedImage.Stretch = System.Windows.Media.Stretch.Fill;
+            var ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
+            this.projectedImage.Stretch = System.Windows.Media.Stretch.Fill;
             //.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)((Button)sender).Content;
-            projectedImage.Source = ButtonImage.Source;
-            tabProjectedImage.IsSelected = true;
+            this.projectedImage.Source = ButtonImage.Source;
+            this.tabProjectedImage.IsSelected = true;
         }
 
         private void ImageButtonClicked(object sender, RoutedEventArgs e)
         {
             //System.Windows.Forms.MessageBox.Show( "clicked image button" + ((System.Windows.Controls.Button)sender).ToolTip);
-            System.Windows.Controls.Image ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
+            var ButtonImage = (System.Windows.Controls.Image)(((System.Windows.Controls.Button)sender).Content);
             //MainTabGroup.SelectedIndex=1;
             //projectedImage.Source = ButtonImage.Source;
             //projectedImage.Height =500;
             //projectedImage.Width = 600;
+        }
+
         private void btnTimer_Click(object sender, RoutedEventArgs e)
         {
-            if (!_timer.IsEnabled)
+            if (!this._timer.IsEnabled)
             {
-                _timerTime = 0;
-                _timer.Interval = System.TimeSpan.FromSeconds(1);
-                _timer.Start();
-                btnTimer.Content = "Stop Timer";
+                this._timerTime = 0;
+                this._timer.Interval = System.TimeSpan.FromSeconds(1);
+                this._timer.Start();
+                this.btnTimer.Content = "Stop Timer";
             }
             else
             {
-                _timer.Stop();
-                btnTimer.Content = "Start Timer";
+                this._timer.Stop();
+                this.btnTimer.Content = "Start Timer";
             }
         }
 
         void timer_Tick(object sender, System.EventArgs e)
         {
-            lblTime.Text = "The Clock is ticking: " + _timerTime++.ToString();
+            this.lblTime.Text = "The Clock is ticking: " + this._timerTime++.ToString();
         }
-  
     }
 }
 
